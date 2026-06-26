@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CloudApp</string>
+    <string name="cloudvault">CloudVault</string>
+    <string name="store_cloud_spicshal">تخزينك السحابي الخاص</string>
+    <string name="noAcount">ما عندك حساب؟</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setting">الإعدادات</string>
+    <string name="upload">رفع</string>
+    <string name="folder">ملفاتي</string>
+    <string name="home">الرئيسية</string>
+    <string name="end_file">آخر الملفات</string>
+    <string name="share">مشاركة</string>
+    <string name="favorite">المفضلة</string>
+    <string name="new_file">مجلد جديد</string>
+    <string name="upload_file">رفع ملف</string>
+    <string name="procdure">إجراءات سريعة</string>
+    <string name="average_maga">0 MB من 10 GB</string>
+    <string name="space_use">المساحة المستخدمة</string>
+    <string name="user">المستخدم</string>
+    <string name="welcome">أهلاً،</string>
+    <string name="a">أ</string>
+</resources>

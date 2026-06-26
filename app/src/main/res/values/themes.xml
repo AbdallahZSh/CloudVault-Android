@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.CloudApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cv_primary</item>
+        <item name="colorPrimaryVariant">@color/cv_secondary</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorControlActivated">@color/cv_accent</item>
+        <item name="colorControlNormal">@color/cv_border</item>
+        <item name="colorControlHighlight">@color/cv_surface</item>
+        <item name="android:colorBackground">@color/cv_background</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Theme.CloudApp" parent="Base.Theme.CloudApp"/>
+
+    <style name="Theme.CloudApp.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/cv_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.CloudApp</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="CloudVault.TextInputLayout"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/cv_surface</item>
+        <item name="boxStrokeColor">@color/cv_border</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="hintTextColor">@color/cv_text_hint</item>
+        <item name="android:textColorHint">@color/cv_text_hint</item>
+    </style>
+
+    <style name="CloudVault.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/cv_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/cv_text_muted</item>
+    </style>
+
+</resources>
