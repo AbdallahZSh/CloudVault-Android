@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CloudApp</string>
+    <string name="app_name">CloudVault</string>
     <string name="cloudvault">CloudVault</string>
     <string name="store_cloud_spicshal">تخزينك السحابي الخاص</string>
     <string name="noAcount">ما عندك حساب؟</string>

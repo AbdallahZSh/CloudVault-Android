@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CloudApp"
+rootProject.name = "CloudVault"
 include(":app")
  

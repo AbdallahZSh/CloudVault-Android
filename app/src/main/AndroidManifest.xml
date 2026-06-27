@@ -12,15 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CloudApp">
         <activity
-            android:name=".ui.auth.RegisterActivity"
+            android:name="com.abdallahshabat.cloudvault.ui.auth.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name="com.abdallahshabat.cloudvault.ui.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
-            android:exported="true"
+            android:name="com.abdallahshabat.cloudvault.ui.splash.SplashActivity"            android:exported="true"
             android:theme="@style/Theme.CloudApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name="com.abdallahshabat.cloudvault.ui.home.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
