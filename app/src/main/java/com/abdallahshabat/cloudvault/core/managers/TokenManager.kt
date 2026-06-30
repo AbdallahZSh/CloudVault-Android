@@ -1,7 +1,7 @@
 package com.abdallahshabat.cloudvault.core.managers
 
 import android.content.Context
-import com.abdallahshabat.cloudvault.data.model.UserModel
+import com.abdallahshabat.cloudvault.data.model.User
 import com.google.gson.Gson
 
 object TokenManager {
@@ -10,10 +10,16 @@ object TokenManager {
     private const val KEY_TOKEN = "auth_token"
     private const val KEY_USER = "auth_user"
 
-    // ── Token ──────────────────────────────────────────
+    // ───────────────────────── Token ─────────────────────────
 
-    fun saveToken(context: Context, token: String) {
-        prefs(context).edit().putString(KEY_TOKEN, token).apply()
+    fun saveToken(
+        context: Context,
+        token: String
+    ) {
+        prefs(context)
+            .edit()
+            .putString(KEY_TOKEN, token)
+            .apply()
     }
 
     fun getToken(context: Context): String? {
@@ -28,30 +34,60 @@ object TokenManager {
         return getToken(context) != null
     }
 
-    // ── User ───────────────────────────────────────────
+    // ───────────────────────── User ─────────────────────────
 
-    fun saveUser(context: Context, user: UserModel) {
+    fun saveUser(
+        context: Context,
+        user: User
+    ) {
+
         val json = Gson().toJson(user)
-        prefs(context).edit().putString(KEY_USER, json).apply()
+
+        prefs(context)
+            .edit()
+            .putString(KEY_USER, json)
+            .apply()
+
     }
 
-    fun getUser(context: Context): UserModel? {
-        val json = prefs(context).getString(KEY_USER, null) ?: return null
+    fun getUser(context: Context): User? {
+
+        val json = prefs(context)
+            .getString(KEY_USER, null)
+            ?: return null
+
         return try {
-            Gson().fromJson(json, UserModel::class.java)
+
+            Gson().fromJson(
+                json,
+                User::class.java
+            )
+
         } catch (e: Exception) {
+
             null
+
         }
+
     }
 
-    // ── Logout ─────────────────────────────────────────
+    // ───────────────────────── Logout ─────────────────────────
 
     fun clear(context: Context) {
-        prefs(context).edit().clear().apply()
+
+        prefs(context)
+            .edit()
+            .clear()
+            .apply()
+
     }
 
-    // ── Helper ─────────────────────────────────────────
+    // ───────────────────────── Helper ─────────────────────────
 
     private fun prefs(context: Context) =
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        context.getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+
 }

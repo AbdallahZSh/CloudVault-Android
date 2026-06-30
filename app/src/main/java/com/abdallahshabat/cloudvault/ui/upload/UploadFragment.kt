@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.cloudapp.databinding.FragmentUploadBinding
+import com.abdallahshabat.cloudvault.databinding.FragmentUploadBinding
 
 class UploadFragment : Fragment() {
     private var _binding: FragmentUploadBinding? = null

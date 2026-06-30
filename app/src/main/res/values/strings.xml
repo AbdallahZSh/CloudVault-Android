@@ -19,5 +19,18 @@
     <string name="space_use">المساحة المستخدمة</string>
     <string name="user">المستخدم</string>
     <string name="welcome">أهلاً،</string>
-    <string name="a">أ</string>
+    <string name="user_avatar_letter">أ</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="or">أو</string>
+    <string name="forget_password">نسيت كلمة المرور؟</string>
+    <string name="point_point_point">••••••••</string>
+    <string name="password_enter">كلمة المرور</string>
+    <string name="email_hint">user@example.com</string>
+    <string name="email_enter">البريد الإلكتروني</string>
+    <string name="register_follow_login">سجّل دخولك للمتابعة</string>
+    <string name="create_account">إنشاء حساب</string>
+    <string name="create_now_account_free">أنشئ حسابك الآن مجاناً</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="verifiy_password">تأكيد كلمة المرور</string>
+    <string name="are_you_account">عندك حساب؟</string>
 </resources>

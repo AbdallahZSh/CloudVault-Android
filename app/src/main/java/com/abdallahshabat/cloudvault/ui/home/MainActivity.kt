@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.cloudapp.databinding.ActivityMainBinding
+import com.abdallahshabat.cloudvault.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

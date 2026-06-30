@@ -1,16 +1,52 @@
 package com.abdallahshabat.cloudvault.data.repository
 
-import com.abdallahshabat.cloudvault.core.network.RetrofitClient
-import com.abdallahshabat.cloudvault.data.model.LoginRequest
-import com.abdallahshabat.cloudvault.data.model.RegisterRequest
+import com.abdallahshabat.cloudvault.data.model.User
 
-class AuthRepository {
+/**
+ * ------------------------------------------------------------
+ * File Name : AuthRepository.kt
+ * Module    : Authentication
+ * Project   : CloudVault
+ *
+ * English:
+ * Defines authentication operations used by the ViewModel.
+ * The implementation can use Firebase or any other backend.
+ *
+ * العربية:
+ * يعرّف عمليات المصادقة التي يستخدمها الـ ViewModel.
+ * ويمكن تنفيذها بواسطة Firebase أو أي خادم آخر.
+ * ------------------------------------------------------------
+ */
+interface AuthRepository {
 
-    private val api = RetrofitClient.instance
+    /**
+     * ---------------------------------------------------------
+     * English:
+     * Registers a new user.
+     *
+     * العربية:
+     * إنشاء حساب مستخدم جديد.
+     * ---------------------------------------------------------
+     */
+    suspend fun register(
+        fullName: String,
+        email: String,
+        password: String
+    ): Result<Unit>
 
-    suspend fun login(email: String, password: String) =
-        api.login(LoginRequest(email, password))
-
-    suspend fun register(name: String, email: String, password: String) =
-        api.register(RegisterRequest(name, email, password))
+    /**
+     * ---------------------------------------------------------
+     * English:
+     * Logs in an existing user.
+     *
+     * العربية:
+     * تسجيل دخول مستخدم موجود.
+     * ---------------------------------------------------------
+     */
+    suspend fun login(
+        email: String,
+        password: String
+    ): Result<Unit>
+    suspend fun getCurrentUser(): Result<User>
+    fun logout()
 }

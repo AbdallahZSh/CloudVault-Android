@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.cloudapp"
+    namespace = "com.abdallahshabat.cloudvault"
     compileSdk {
         version = release(36)
     }
@@ -12,7 +13,7 @@ android {
         viewBinding = true
     }
     defaultConfig {
-        applicationId = "com.example.cloudapp"
+        applicationId = "com.abdallahshabat.cloudvault"
         minSdk = 28
         targetSdk = 36
         versionCode = 1
@@ -57,6 +58,19 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+
+
+    // Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    //implementation database
+    implementation("com.google.firebase:firebase-firestore")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

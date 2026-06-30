@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.abdallahshabat.cloudvault.core.managers.TokenManager
-import com.example.cloudapp.R
-import com.example.cloudapp.databinding.FragmentHomeBinding
+import com.abdallahshabat.cloudvault.R
+import com.abdallahshabat.cloudvault.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
@@ -34,8 +34,8 @@ class HomeFragment : Fragment() {
 
     private fun setupUI() {
         val user = TokenManager.getUser(requireContext())
-        binding.tvUserName.text = user?.name ?: "مرحباً"
-        binding.tvUserInitial.text = user?.name?.first()?.toString() ?: "أ"
+        binding.tvUserName.text = user?.fullName ?: "مرحباً"
+        binding.tvUserInitial.text = user?.email?.first()?.toString() ?: "أ"
 
         // Storage bar
         val used = user?.storageUsed ?: 0L

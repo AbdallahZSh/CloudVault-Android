@@ -14,10 +14,24 @@ import androidx.lifecycle.lifecycleScope
 import com.abdallahshabat.cloudvault.core.managers.TokenManager
 import com.abdallahshabat.cloudvault.ui.auth.LoginActivity
 import com.abdallahshabat.cloudvault.ui.home.MainActivity
-import com.example.cloudapp.databinding.ActivitySplashBinding
+import com.abdallahshabat.cloudvault.databinding.ActivitySplashBinding
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+/*فتح التطبيق
+      │
+      ▼
+SplashActivity
+      │
+      ▼
+هل يوجد مستخدم في Firebase؟
+      │
+ ┌────┴────┐
+ │         │
+ نعم       لا
+ │         │
+ ▼         ▼
+MainActivity   LoginActivity*/
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
@@ -37,6 +51,27 @@ class SplashActivity : AppCompatActivity() {
             delay(2800)
             navigateNext()
         }
+
+        binding.root.postDelayed({
+
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            /*ماذا يفعل هذا الكود؟
+            إذا كان:
+            FirebaseAuth.getInstance().currentUser
+            ليسnull 1
+            فإن المستخدم ما زال مسجلًا، وينتقل مباشرة إلى:
+            MainActivity
+أما إذا كانت:
+            currentUser == null
+فينتقل إلى:
+            LoginActivity*/
+            if (currentUser != null) {
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            finish()
+        }, 1500)
     }
 
     private fun startAnimations() {

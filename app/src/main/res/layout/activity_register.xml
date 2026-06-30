@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="إنشاء حساب"
+                android:text="@string/create_account"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF"
                 android:textFontWeight="500"
@@ -56,7 +56,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="أنشئ حسابك الآن مجاناً"
+                android:text="@string/create_now_account_free"
                 android:textSize="12sp"
                 android:textColor="#99FFFFFF"
                 android:fontFamily="@font/inter"
@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="الاسم الكامل"
+                android:text="@string/full_name"
                 android:textSize="11sp"
                 android:textColor="@color/cv_text_hint"
                 android:fontFamily="@font/inter"
@@ -86,6 +86,7 @@
                 android:layout_marginBottom="6dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -96,7 +97,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:hint="أحمد محمد"
                     android:fontFamily="@font/inter"
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="8dp"/>
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="البريد الإلكتروني"
+                android:text="@string/email_enter"
                 android:textSize="11sp"
                 android:textColor="@color/cv_text_hint"
                 android:fontFamily="@font/inter"
@@ -114,6 +114,7 @@
                 android:layout_marginBottom="6dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -124,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:hint="user@example.com"
                     android:fontFamily="@font/inter"
                     android:drawableStart="@drawable/ic_mail"
                     android:drawablePadding="8dp"/>
@@ -134,7 +134,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="كلمة المرور"
+                android:text="@string/password_enter"
                 android:textSize="11sp"
                 android:textColor="@color/cv_text_hint"
                 android:fontFamily="@font/inter"
@@ -142,6 +142,7 @@
                 android:layout_marginBottom="6dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -153,7 +154,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="6 أحرف على الأقل"
                     android:fontFamily="@font/inter"
                     android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="8dp"/>
@@ -163,7 +163,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="تأكيد كلمة المرور"
+                android:text="@string/verifiy_password"
                 android:textSize="11sp"
                 android:textColor="@color/cv_text_hint"
                 android:fontFamily="@font/inter"
@@ -171,6 +171,7 @@
                 android:layout_marginBottom="6dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -182,7 +183,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="أعد كتابة كلمة المرور"
                     android:fontFamily="@font/inter"
                     android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="8dp"/>
@@ -193,8 +193,9 @@
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="إنشاء حساب"
+                android:text="@string/create_account"
                 android:textSize="15sp"
+                android:gravity="center"
                 android:fontFamily="@font/inter"
                 android:textFontWeight="500"
                 app:backgroundTint="@color/cv_primary"
@@ -221,7 +222,7 @@
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/cv_text_hint"
-                android:text="عندك حساب؟ "/>
+                android:text="@string/are_you_account"/>
 
         </LinearLayout>
 

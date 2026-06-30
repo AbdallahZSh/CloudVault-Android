@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "910239235045",
+    "project_id": "cloudvault-56fea",
+    "storage_bucket": "cloudvault-56fea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910239235045:android:6072c950a3b0913be2cd0c",
+        "android_client_info": {
+          "package_name": "com.abdallahshabat.cloudvault"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-YynppDIwFoH5DePVXTRlpVcZr72WWDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

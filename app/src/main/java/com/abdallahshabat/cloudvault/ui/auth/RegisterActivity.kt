@@ -1,88 +1,273 @@
 package com.abdallahshabat.cloudvault.ui.auth
+/*
+* getRegisterForm()
+        │
+        ▼
+يجمع البيانات فقط
 
-import android.content.Intent
+validateInputs()
+        │
+        ▼
+يتحقق من صحة البيانات فقط
+
+registerUser()
+        │
+        ▼
+يستدعي ViewModel فقط */
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.abdallahshabat.cloudvault.ui.home.MainActivity
-import com.abdallahshabat.cloudvault.core.managers.TokenManager
-import com.example.cloudapp.R
-import com.example.cloudapp.databinding.ActivityRegisterBinding
-import com.google.android.material.snackbar.Snackbar
-
+import androidx.core.widget.doAfterTextChanged
+import com.abdallahshabat.cloudvault.core.validation.AuthValidator
+import com.abdallahshabat.cloudvault.core.validation.ValidationResult
+import com.abdallahshabat.cloudvault.data.model.RegisterForm
+import com.abdallahshabat.cloudvault.databinding.ActivityRegisterBinding
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+/**
+ * File Name : RegisterActivity.kt
+ * Module    : Authentication
+ * Project   : CloudVault
+ * Handles the user registration screen.
+ * This Activity is responsible only for UI interactions and
+ * delegates business logic to the ViewModel.
+ * مسؤول عن شاشة إنشاء الحساب.
+ * يقتصر دوره على التعامل مع واجهة المستخدم فقط،
+ * بينما يتم نقل منطق العمل إلى الـ ViewModel.
+ */
 class RegisterActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityRegisterBinding
+    /**ViewModel responsible for authentication.
+     * الـ ViewModel المسؤول عن عمليات المصادقة.
+     */
     private val viewModel: AuthViewModel by viewModels()
+    // English: Provides safe access to UI components.
+    // العربية: يوفر وصولاً آمناً لعناصر الواجهة.
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupUI()
-        observeState()
+        setupTextWatchers()
+        initializeViews()
+        setupClickListeners()
+        observeViewModel()
     }
 
-    private fun setupUI() {
-        // زر التسجيل
-        binding.btnRegister.setOnClickListener {
-            val name = binding.etName.text.toString().trim()
-            val email = binding.etEmail.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
-            val confirm = binding.etConfirmPassword.text.toString().trim()
+    /**
+     * Initializes the screen state.
+     * تهيئة الحالة الابتدائية للشاشة.
+     */
+    private fun initializeViews() {
 
-            if (password != confirm) {
-                showError("كلمتا المرور غير متطابقتين")
-                return@setOnClickListener
-            }
-            viewModel.register(name, email, password)
-        }
+        hideLoading()
 
-        // الرجوع للـ Login
-        binding.tvLogin.setOnClickListener {
-            finish()
-        }
+    }
+
+     // Registers all click listeners.
+     // ربط جميع أحداث الضغط الخاصة بالمستخدم.
+    private fun setupClickListeners() {
 
         binding.ivBack.setOnClickListener {
             finish()
         }
+
+        binding.btnRegister.setOnClickListener {
+            registerUser()
+        }
+
+        binding.tvLogin.setOnClickListener {
+            finish()
+        }
+
     }
 
-    private fun observeState() {
-        viewModel.authState.observe(this) { state ->
-            when (state) {
-                is AuthState.Idle -> setLoading(false)
+    //Observes ViewModel states.
+    // مراقبة الحالات القادمة من الـ ViewModel.
+    private fun observeViewModel() {
 
-                is AuthState.Loading -> setLoading(true)
+        viewModel.authState.observe(this) { state ->
+
+            when (state) {
+
+                is AuthState.Idle -> {
+                    hideLoading()
+                }
+
+                is AuthState.Loading -> {
+                    showLoading()
+                }
 
                 is AuthState.Success -> {
-                    setLoading(false)
-                    TokenManager.saveToken(this, state.data.token)
-                    TokenManager.saveUser(this, state.data.user)
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finishAffinity()
+                    hideLoading()
+
+                    android.widget.Toast.makeText(
+                        this,
+                        "Registration successful",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+
+                    finish()
                 }
 
                 is AuthState.Error -> {
-                    setLoading(false)
-                    showError(state.message)
+                    hideLoading()
+
+                    Toast.makeText(
+                        this,
+                        state.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+
                     viewModel.resetState()
                 }
             }
         }
     }
+    //Collects user input and starts registration.
+    // يجمع بيانات المستخدم ويبدأ عملية إنشاء الحساب.
+    private fun registerUser() {
 
-    private fun setLoading(isLoading: Boolean) {
-        binding.btnRegister.isEnabled = !isLoading
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.btnRegister.alpha = if (isLoading) 0.7f else 1f
+        if (!validateInputs()) {
+            return
+        }
+
+        val form = getRegisterForm()
+
+        viewModel.register(
+            form.fullName,
+            form.email,
+            form.password
+        )
     }
 
-    private fun showError(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-            .setBackgroundTint(getColor(R.color.cv_danger))
-            .setTextColor(getColor(android.R.color.white))
-            .show()
+   //Validates all registration fields using AuthValidator.
+   //التحقق من جميع الحقول باستخدام AuthValidator.
+    private fun validateInputs(): Boolean {
+
+        clearErrors()
+
+        val form = getRegisterForm()
+
+        when (val result = AuthValidator.validateFullName(form.fullName)) {
+            is ValidationResult.Invalid -> {
+                showError(binding.tilName, binding.etName, result.message)
+                return false
+            }
+            ValidationResult.Valid -> {}
+        }
+
+        when (val result = AuthValidator.validateEmail(form.email)) {
+            is ValidationResult.Invalid -> {
+                showError(binding.tilEmail, binding.etEmail, result.message)
+                return false
+            }
+            ValidationResult.Valid -> {}
+        }
+
+        when (val result = AuthValidator.validatePassword(form.password)) {
+            is ValidationResult.Invalid -> {
+                showError(binding.tilPassword, binding.etPassword, result.message)
+                return false
+            }
+            ValidationResult.Valid -> {}
+        }
+
+        when (
+            val result = AuthValidator.validateConfirmPassword(
+                form.password,
+                form.confirmPassword
+            )
+        ) {
+            is ValidationResult.Invalid -> {
+                showError(
+                    binding.tilConfirmPassword,
+                    binding.etConfirmPassword,
+                    result.message
+                )
+                return false
+            }
+            ValidationResult.Valid -> {}
+        }
+
+        return true
+    }
+
+    //Clears all validation errors.
+    //إزالة جميع رسائل الخطأ من الحقول.
+    private fun clearErrors() {
+
+        binding.tilName.error = null
+        binding.tilEmail.error = null
+        binding.tilPassword.error = null
+        binding.tilConfirmPassword.error = null
+
+    }
+
+    //Displays an error message and focuses the corresponding field.
+    // يعرض رسالة الخطأ ويضع المؤشر على الحقل المطلوب.
+    private fun showError(
+        layout: TextInputLayout,
+        editText: TextInputEditText,
+        message: String
+    ) {
+
+        layout.error = message
+        editText.requestFocus()
+
+    }
+
+
+    // Clears validation errors while the user edits the fields.
+    // إزالة رسائل الخطأ تلقائياً عند بدء المستخدم بتعديل الحقول.
+    private fun setupTextWatchers() {
+
+        binding.etName.doAfterTextChanged {
+            binding.tilName.error = null
+        }
+
+        binding.etEmail.doAfterTextChanged {
+            binding.tilEmail.error = null
+        }
+
+        binding.etPassword.doAfterTextChanged {
+            binding.tilPassword.error = null
+        }
+
+        binding.etConfirmPassword.doAfterTextChanged {
+            binding.tilConfirmPassword.error = null
+        }
+
+    }
+    private fun showLoading() {
+
+        binding.apply {
+            progressBar.visibility = View.VISIBLE
+            btnRegister.isEnabled = false
+        }
+
+    }
+    /**Hides loading state.
+     * إخفاء مؤشر التحميل.*/
+    private fun hideLoading() {
+
+        binding.apply {
+            progressBar.visibility = View.GONE
+            btnRegister.isEnabled = true
+        }
+
+    }
+    private fun getRegisterForm(): RegisterForm {
+
+        return RegisterForm(
+            fullName = binding.etName.text.toString().trim(),
+            email = binding.etEmail.text.toString().trim(),
+            password = binding.etPassword.text.toString(),
+            confirmPassword = binding.etConfirmPassword.text.toString()
+        )
+
     }
 }

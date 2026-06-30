@@ -23,3 +23,10 @@ data class UserModel(
     val storageUsed: Long,
     val storageTotal: Long
 )
+
+data class RegisterForm(
+    val fullName: String,
+    val email: String,
+    val password: String,
+    val confirmPassword: String
+)

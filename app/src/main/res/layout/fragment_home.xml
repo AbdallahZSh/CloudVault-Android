@@ -46,7 +46,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/inter"
-                            android:text="@string/a"
+                            android:text="@string/user_avatar_letter"
                             android:textColor="#FFFFFF"
                             android:textFontWeight="500"
                             android:textSize="14sp" />
