@@ -69,8 +69,19 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     //implementation database
     implementation("com.google.firebase:firebase-firestore")
+    //implementation storage
+    implementation("com.google.firebase:firebase-storage")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    //أضف مكتبة PhotoView.
+    //هذه المكتبة تضيف:
+    //Zoom
+    //Pinch
+    //Drag
+    //مثل Google Photos.
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

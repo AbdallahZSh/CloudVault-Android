@@ -37,10 +37,13 @@ class FirebaseAuthDataSource {
     ): Result<Unit> {
 
         return try {
+            android.util.Log.d("CloudVault", "Before Register")
 
             val authResult = auth
                 .createUserWithEmailAndPassword(email, password)
                 .await()
+
+            android.util.Log.d("CloudVault", "After Register")
 
             val uid = authResult.user?.uid
                 ?: return Result.failure(Exception("User ID not found"))
@@ -74,15 +77,18 @@ class FirebaseAuthDataSource {
    ): Result<Unit> {
 
        return try {
+           android.util.Log.d("CloudVault", "Before Firebase Login")
 
            auth.signInWithEmailAndPassword(
                email,
                password
            ).await()
+           android.util.Log.d("CloudVault", "After Firebase Login")
 
            Result.success(Unit)
 
        } catch (e: Exception) {
+           android.util.Log.e("CloudVault", "Firebase Login Error", e)
 
            Result.failure(e)
 

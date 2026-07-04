@@ -140,6 +140,7 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/inter"
                 android:text="@string/login"
+                android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="15sp"
                 app:backgroundTint="@color/cv_primary"
@@ -193,13 +194,12 @@
                 android:weightSum="2">
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
+                    style="@style/CloudVault.OutlinedButton"                    android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter"
-                    android:text="Google"
+                    android:text="@string/google"
                     android:textColor="@color/cv_text_muted"
                     android:textSize="13sp"
                     app:backgroundTint="@color/cv_surface"
@@ -213,13 +213,12 @@
 
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
+                    style="@style/CloudVault.OutlinedButton"                    android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter"
-                    android:text="Apple"
+                    android:text="@string/apple"
                     android:textColor="@color/cv_text_muted"
                     android:textSize="13sp"
                     app:backgroundTint="@color/cv_surface"
@@ -242,7 +241,7 @@
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/cv_text_hint"
-                android:text="ما عندك حساب؟ "/>
+                android:text="@string/noAccount"/>
 
         </LinearLayout>
 

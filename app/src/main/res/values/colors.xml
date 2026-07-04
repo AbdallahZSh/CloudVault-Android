@@ -20,4 +20,8 @@
     <color name="cv_text_primary">#F1F0FF</color>
     <color name="cv_text_muted">#F1F0FF73</color>
     <color name="cv_text_hint">#F1F0FF40</color>
+
+    <color name="cv_text_secondary">#6B7280</color>
+    <!-- Divider -->
+    <color name="cv_divider">#E5E7EB</color>
 </resources>

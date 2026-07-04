@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="cloudapp.TextInputLayout"
+    <style name="cloudVault.TextInputLayout"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/cv_surface</item>
         <item name="boxStrokeColor">@color/cv_border</item>

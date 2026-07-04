@@ -2,7 +2,7 @@
     <string name="app_name">CloudVault</string>
     <string name="cloudvault">CloudVault</string>
     <string name="store_cloud_spicshal">تخزينك السحابي الخاص</string>
-    <string name="noAcount">ما عندك حساب؟</string>
+    <string name="noAccount">ما عندك حساب؟</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setting">الإعدادات</string>
@@ -33,4 +33,9 @@
     <string name="full_name">الاسم الكامل</string>
     <string name="verifiy_password">تأكيد كلمة المرور</string>
     <string name="are_you_account">عندك حساب؟</string>
+    <string name="google">Google</string>
+    <string name="apple">Apple</string>
+    <string name="open_title_menu">Open</string>
+    <string name="download_title_menu">Download</string>
+    <string name="delete_title_menu">Delete</string>
 </resources>
