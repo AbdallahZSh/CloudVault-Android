@@ -23,23 +23,20 @@ class FileRepositoryImpl : FileRepository {
     ): Result<Unit>  {
 
         return try {
-            val uploadResult = cloudinaryDataSource.uploadImage(
+            cloudinaryDataSource.uploadImage(
                 context,
                 fileUri,
                 listener
-            )
-            uploadResult.fold(
-
+            ).fold(
                 onSuccess = { result ->
 
-                    val document =
-                        firestore.collection("users")
-                            .document(userId)
-                            .collection("files")
-                            .document()
+                    val document = firestore
+                        .collection("users")
+                        .document(userId)
+                        .collection("files")
+                        .document()
 
                     val cloudFile = CloudFile(
-
                         id = document.id,
                         ownerId = userId,
                         fileName = fileName,
@@ -47,22 +44,15 @@ class FileRepositoryImpl : FileRepository {
                         publicId = result.publicId,
                         fileType = fileType,
                         fileSize = fileSize
-
-
                     )
 
                     document.set(cloudFile).await()
 
                     Result.success(Unit)
-
                 },
-
                 onFailure = {
-
                     Result.failure(it)
-
                 }
-
             )
         } catch (exception: Exception) {
             Result.failure(exception)

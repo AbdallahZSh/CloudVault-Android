@@ -74,7 +74,7 @@ object FileOpener {
 
             data = uri
 
-            type = file.fileType
+            setDataAndType(uri, file.fileType)
 
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             //لماذا أضفنا

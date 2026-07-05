@@ -8,8 +8,6 @@ import com.abdallahshabat.cloudvault.data.remote.upload.ProgressRequestBody
 import com.abdallahshabat.cloudvault.data.remote.upload.UploadProgressListener
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
@@ -19,7 +17,7 @@ class CloudinaryDataSource {
         context: Context,
         uri: Uri,
         listener: UploadProgressListener
-    ): Result<String> {
+    ): Result<UploadResult>{
 
         return try {
 
@@ -54,8 +52,12 @@ class CloudinaryDataSource {
                 preset
             )
 
-            return Result.success(response.secureUrl)
-
+            return Result.success(
+                UploadResult(
+                    fileUrl = response.secureUrl,
+                    publicId = response.publicId
+                )
+            )
         } catch (e: Exception) {
             Result.failure(e)
         }

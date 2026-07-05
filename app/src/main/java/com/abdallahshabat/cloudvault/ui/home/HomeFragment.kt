@@ -21,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.abdallahshabat.cloudvault.ui.home.adapter.FileAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import androidx.navigation.fragment.findNavController
 
 
 /*HomeFragment
@@ -130,10 +131,17 @@ class HomeFragment : Fragment() {
             object : FileAdapter.OnFileClickListener {
                 override fun onFileClick(file: CloudFile) {
 
-                    FileOpener.open(
-                        requireContext(),
-                        file
-                    )
+                    if (file.fileType.startsWith("image/")) {
+
+                        val bundle = Bundle().apply {
+                            putString("imageUrl", file.fileUrl)
+                        }
+
+                        findNavController().navigate(R.id.action_homeFragment_to_imageViewerFragment, bundle)
+
+                    } else {
+                        FileOpener.open(requireContext(), file)
+                    }
 
                 }
 
