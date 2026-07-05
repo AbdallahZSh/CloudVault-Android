@@ -1,0 +1,6 @@
+@CloudVault.Api_HostAddress = http://localhost:5199
+
+GET {{CloudVault.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
