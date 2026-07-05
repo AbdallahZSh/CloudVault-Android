@@ -21,7 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.abdallahshabat.cloudvault.ui.home.adapter.FileAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import androidx.navigation.fragment.findNavController
 
 
 /*HomeFragment
@@ -130,19 +129,10 @@ class HomeFragment : Fragment() {
         fileAdapter.setOnFileClickListener(
             object : FileAdapter.OnFileClickListener {
                 override fun onFileClick(file: CloudFile) {
-
-                    if (file.fileType.startsWith("image/")) {
-
-                        val bundle = Bundle().apply {
-                            putString("imageUrl", file.fileUrl)
-                        }
-
-                        findNavController().navigate(R.id.action_homeFragment_to_imageViewerFragment, bundle)
-
-                    } else {
-                        FileOpener.open(requireContext(), file)
-                    }
-
+                        FileOpener.open(
+                            requireContext(),
+                            file
+                        )
                 }
 
                 override fun onMoreClick(file: CloudFile, anchorView: View) {
@@ -186,35 +176,21 @@ class HomeFragment : Fragment() {
                     /*الآن أصبحت ميزة Open تعمل من مكانين
 الضغط على الملف نفسه.
 اختيار Open من قائمة الخيارات.
-
 وكلاهما يستخدم نفس الكود داخل  FileOpener                    .    */
-                    FileOpener.open(
-                        requireContext(),
-                        file
-                    )
-
+                    FileOpener.open(requireContext(), file)
                     true
                 }
-
-                R.id.action_download -> {
-                    FileDownloader.download(
-                        requireContext(),
-                        file
-                    )
-
+                R.id.action_download -> { FileDownloader.download(requireContext(), file)
                     true
                 }
 
                 R.id.action_share -> {
-                    FileSharer.share(
-                        requireContext(),
-                        file
-                    )
-
+                    FileSharer.share(requireContext(), file)
                     true
                 }
 
                 R.id.action_rename -> {
+                    renameFile(file)
                   true
                 }
 
@@ -227,7 +203,6 @@ class HomeFragment : Fragment() {
                         requireContext(),
                         file
                     )
-
                     true
                 }
 
@@ -256,163 +231,59 @@ class HomeFragment : Fragment() {
                     showDeleteDialog(file)
                     true
                 }
-
                 else -> false
             }
         }
-
         popupMenu.show()
     }
 
-    private fun showDeleteDialog(
-        file: CloudFile
-    ) {
-
+    private fun showDeleteDialog(file: CloudFile) {
         MaterialAlertDialogBuilder(requireContext())
-
             .setTitle("Delete File")
-
-            .setMessage(
-                "Are you sure you want to delete\n\n${file.fileName} ?\n\nThis action cannot be undone."
-            )
-
+            .setMessage("Are you sure you want to delete\n\n${file.fileName} ?\n\nThis action cannot be undone.")
             .setNegativeButton("Cancel", null)
-
             .setPositiveButton("Delete") { _, _ ->
-
                 viewModel.deleteFile(file)
-
             }
-
             .show()
-
     }
 
     /**
-     * ------------------------------------------------------------
      * Observes delete result.
-     *
-     * English:
      * Refreshes RecyclerView after deleting a file.
-     *
-     * العربية:
      * مراقبة نتيجة حذف الملف.
-     * ------------------------------------------------------------
      */
     private fun observeDeleteState() {
-
         viewModel.deleteState.observe(viewLifecycleOwner) { result ->
-
             result.fold(
-
                 onSuccess = {
-
                     viewModel.loadFiles()
-
-                    Snackbar.make(
-                        binding.root,
-                        "File deleted successfully.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
+                    Snackbar.make(binding.root, "File deleted successfully.", Snackbar.LENGTH_SHORT).show()
                 },
-
                 onFailure = {
-
-                    Snackbar.make(
-                        binding.root,
-                        "Failed to delete file.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
+                    Snackbar.make(binding.root, "Failed to delete file.", Snackbar.LENGTH_SHORT).show()
                 }
-
             )
-
         }
-
     }
-    private fun showRenameDialog(
-        file: CloudFile
-    ) {
 
-        val editText =
-            com.google.android.material.textfield.TextInputEditText(
-                requireContext()
-            )
-
-        editText.setText(file.fileName)
-
-        MaterialAlertDialogBuilder(requireContext())
-
-            .setTitle("Rename File")
-
-            .setView(editText)
-
-            .setNegativeButton("Cancel", null)
-
-            .setPositiveButton("Save") { _, _ ->
-
-                val newName =
-                    editText.text
-                        ?.toString()
-                        ?.trim()
-                        ?: ""
-
-                if (newName.isNotEmpty()) {
-
-                    viewModel.renameFile(
-                        file,
-                        newName
-                    )
-
-                }
-
-            }
-
-            .show()
-
-    }
     //راقب النتيجة تعت اعادة التسمية
     private fun observeRenameState() {
-
-        viewModel.renameState.observe(
-            viewLifecycleOwner
-        ) { result ->
-
+        viewModel.renameState.observe(viewLifecycleOwner) { result ->
             result.fold(
-
                 onSuccess = {
-
                     viewModel.loadFiles()
-
-                    Snackbar.make(
-                        binding.root,
-                        "File renamed successfully.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
+                    Snackbar.make(binding.root, "File renamed successfully.", Snackbar.LENGTH_SHORT).show()
                 },
-
                 onFailure = {
-
-                    Snackbar.make(
-                        binding.root,
-                        "Failed to rename file.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
+                    Snackbar.make(binding.root, "Failed to rename file.", Snackbar.LENGTH_SHORT).show()
                 }
-
             )
-
         }
-
     }
     private fun renameFile(file: CloudFile) {
 
-        val dialogBinding =
-            DialogRenameFileBinding.inflate(layoutInflater)
+        val dialogBinding = DialogRenameFileBinding.inflate(layoutInflater)
 
         dialogBinding.etFileName.setText(file.fileName)
 
@@ -423,119 +294,14 @@ class HomeFragment : Fragment() {
         dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
-
         dialogBinding.btnRename.setOnClickListener {
-
-            val newName =
-                dialogBinding.etFileName.text.toString().trim()
-
+            val newName = dialogBinding.etFileName.text.toString().trim()
             if (newName.isNotEmpty()) {
-
                 viewModel.renameFile(file, newName)
-
                 dialog.dismiss()
             }
         }
-
         dialog.show()
     }
 
-    //إضافة Download function داخل Fragment
-    private fun downloadFile(file: CloudFile) {
-
-        val request = android.app.DownloadManager.Request(android.net.Uri.parse(file.fileUrl))
-            .setTitle(file.fileName)
-            .setDescription("Downloading file...")
-            .setNotificationVisibility(
-                android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-            )
-            .setAllowedOverMetered(true)
-            .setAllowedOverRoaming(true)
-
-        val dm = requireContext().getSystemService(android.content.Context.DOWNLOAD_SERVICE)
-                as android.app.DownloadManager
-
-        dm.enqueue(request)
-
-        Snackbar.make(binding.root, "Downloading started...", Snackbar.LENGTH_SHORT).show()
-    }
-
-
-    //إضافة Open File function
-    private fun openFile(file: CloudFile) {
-
-        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
-
-        intent.setDataAndType(
-            android.net.Uri.parse(file.fileUrl),
-            getMimeType(file.fileType)
-        )
-
-        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            Snackbar.make(binding.root, "No app found to open this file", Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
-
-    //دالة تحديد نوع الملف (MIME Type)
-    private fun getMimeType(type: String): String {
-
-        return when (type.lowercase()) {
-
-            "pdf" -> "application/pdf"
-            "png" -> "image/png"
-            "jpg", "jpeg" -> "image/jpeg"
-            "mp4" -> "video/mp4"
-            "mp3" -> "audio/mpeg"
-
-            else -> "*/*"
-        }
-    }
-
-    //المستخدم يضغط Share
-    //
-    //→ يفتح تطبيقات الجهاز:
-    //
-    //WhatsApp
-    //Telegram
-    //Gmail
-    //Messenger
-    //✔ يتم إرسال:
-    //اسم الملف
-    //رابط Cloudinary
-
-    private fun shareFile(file: CloudFile) {
-
-        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND)
-
-        shareIntent.type = "text/plain"
-
-        val shareText = """
-        📁 File: ${file.fileName}
-
-        🔗 Link:
-        ${file.fileUrl}
-
-        🚀 Shared via CloudVault
-    """.trimIndent()
-
-
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(
-            android.content.Intent.EXTRA_TEXT,
-            file.fileUrl
-        )
-
-        startActivity(
-            android.content.Intent.createChooser(
-                shareIntent,
-                "Share file via"
-            )
-        )
-    }
 }
