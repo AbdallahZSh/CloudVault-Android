@@ -15,7 +15,7 @@
 
     <color name="cv_success">#10B981</color>
     <color name="cv_warning">#F59E0B</color>
-    <color name="cv_danger">#EF4444</color>
+<!--    <color name="cv_danger">#EF4444</color>-->
 
     <color name="cv_text_primary">#F1F0FF</color>
     <color name="cv_text_muted">#F1F0FF73</color>
@@ -24,4 +24,8 @@
     <color name="cv_text_secondary">#6B7280</color>
     <!-- Divider -->
     <color name="cv_divider">#E5E7EB</color>
+
+    <color name="cv_divider_Black">#262630</color>
+    <color name="cv_danger">#FF4C4C</color>
+    <color name="cv_progress_track">#2A2A32</color>
 </resources>

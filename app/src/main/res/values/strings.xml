@@ -38,4 +38,74 @@
     <string name="open_title_menu">Open</string>
     <string name="download_title_menu">Download</string>
     <string name="delete_title_menu">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="share_file_link">Share file link</string>
+
+    <!--    profile screen -->
+    <string name="profile_title">حسابي</string>
+    <string name="user_email_placeholder">email@example.com</string>
+    <string name="free_plan">خطة مجانية</string>
+    <string name="zero_percent">0%</string>
+    <string name="zero_value">0</string>
+    <string name="files_label">ملف</string>
+    <string name="shared_label">مشاركة</string>
+    <string name="account_section">الحساب</string>
+    <string name="preferences_section">التفضيلات</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="change_password">تغيير كلمة السر</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="privacy_security">الخصوصية والأمان</string>
+    <string name="help_support">المساعدة والدعم</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="app_version_placeholder">CloudVault v1.0.0</string>
+
+<!--    about fragment -->
+    <string name="about_app_headline">عن CloudVault</string>
+    <string name="about_app_description">CloudVault هو تطبيق تخزين سحابي بسيط وآمن، يتيح لك رفع ملفاتك ومشاركتها من أي مكان، مع واجهة سريعة وسهلة الاستخدام.</string>
+    <string name="features_section">أهم الميزات</string>
+    <string name="feature_upload">رفع الملفات ومزامنتها تلقائيًا</string>
+    <string name="feature_share">مشاركة الملفات برابط مباشر</string>
+    <string name="feature_secure">تخزين آمن عبر Firebase</string>
+    <string name="legal_section">قانوني ودعم</string>
+    <string name="terms_of_use">شروط الاستخدام</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="contact_us">تواصل معنا</string>
+    <string name="developed_by">تم التطوير بواسطة</string>
+    <string name="copyright_text">© 2026 CloudVault. جميع الحقوق محفوظة.</string>
+<!--    help  -->
+    <string name="email_support">إيميل الدعم</string>
+    <string name="chat_support">واتساب</string>
+    <string name="faq_section">الأسئلة الشائعة</string>
+    <string name="faq_q1">كيف أرفع ملف؟</string>
+    <string name="faq_a1">اضغط على "رفع ملف" من الشاشة الرئيسية، اختر الملف من جهازك وانتظر حتى تكتمل عملية الرفع.</string>
+    <string name="faq_q2">كيف أشارك ملف مع شخص آخر؟</string>
+    <string name="faq_a2">اضغط على أيقونة "..." بجانب الملف، ثم اختر "مشاركة"، وسيتم فتح رابط يمكنك إرساله لأي شخص.</string>
+    <string name="faq_q3">ماذا أفعل إذا امتلأت مساحتي التخزينية؟</string>
+    <string name="faq_a3">يمكنك حذف الملفات غير المستخدمة، أو ترقية خطتك للحصول على مساحة أكبر.</string>
+    <string name="faq_q4">هل ملفاتي آمنة؟</string>
+    <string name="faq_a4">نعم، جميع الملفات مخزنة بشكل آمن عبر Firebase مع تشفير أثناء النقل.</string>
+    <string name="report_problem">الإبلاغ عن مشكلة</string>
+
+<!--    PrivacyActivity -->.
+    <string name="app_security_section">أمان التطبيق</string>
+    <string name="app_lock">قفل التطبيق</string>
+    <string name="app_lock_desc">افتح التطبيق ببصمتك أو رقم سري</string>
+    <string name="two_factor_auth">التحقق بخطوتين</string>
+    <string name="two_factor_auth_desc">حماية إضافية عند تسجيل الدخول</string>
+    <string name="account_data_section">بيانات الحساب</string>
+    <string name="active_sessions">الجلسات النشطة</string>
+    <string name="download_my_data">تحميل بياناتي</string>
+    <string name="danger_zone_section">منطقة الخطر</string>
+    <string name="delete_account">حذف الحساب نهائيًا</string>
+
+<!--    password -->
+    <string name="change_password_hint">لتغيير كلمة السر، أدخل كلمة السر الحالية ثم الكلمة الجديدة.</string>
+    <string name="current_password">كلمة السر الحالية</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="confirm_new_password">تأكيد كلمة السر الجديدة</string>
+    <string name="password_requirements">يجب أن تحتوي كلمة السر على 6 أحرف على الأقل.</string>
+    <string name="save_new_password">حفظ كلمة السر الجديدة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
 </resources>

@@ -22,7 +22,8 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.abdallahshabat.cloudvault.ui.settings.SettingsFragment"
+        android:name="com.abdallahshabat.cloudvault.ui.profile.ProfileFragment"
         android:label="@string/setting"/>
+
 
 </navigation>

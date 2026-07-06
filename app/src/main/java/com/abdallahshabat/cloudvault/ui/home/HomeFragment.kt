@@ -98,6 +98,9 @@ class HomeFragment : Fragment() {
                 ).selectedItemId = R.id.uploadFragment
             }
         }
+        binding.cardShare.setOnClickListener {
+            shareApp()
+        }
     }
 
 
@@ -236,7 +239,24 @@ class HomeFragment : Fragment() {
         }
         popupMenu.show()
     }
+    /*** مشاركة التطبيق نفسه مع الأصدقاء
+     * عبر أي تطبيق مثبت (واتساب، تيليجرام، ايميل...)
+     * Share the app itself via any installed app */
+    private fun shareApp() {
+        val appPackageName = requireContext().packageName
+        val shareText = """
+        جرب تطبيق CloudVault لتخزين ومشاركة ملفاتك بسهولة! ☁️
+        حمّله من هنا:
+        https://play.google.com/store/apps/details?id=$appPackageName
+    """.trimIndent()
 
+        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+        }
+
+        startActivity(android.content.Intent.createChooser(shareIntent, "شارك التطبيق عبر"))
+    }
     private fun showDeleteDialog(file: CloudFile) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete File")

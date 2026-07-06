@@ -8,7 +8,7 @@ the "More" button of a file.
 القائمة التي تظهر عند الضغط على زر
 (⋮) الخاص بكل ملف.-->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
         android:id="@+id/action_open"
@@ -22,16 +22,16 @@ the "More" button of a file.
 
     <item
         android:id="@+id/action_share"
-        android:title="@string/delete_title_menu"/>
+        android:title="@string/share" />
 
     <item
         android:id="@+id/action_rename"
-        android:title="@string/open_title_menu"
+        android:title="@string/rename"
         android:icon="@drawable/ic_rename"/>
 
     <item
         android:id="@+id/action_copy_link"
-        android:title="@string/download_title_menu"
+        android:title="@string/share_file_link"
         android:icon="@drawable/ic_copy"/>
 
     <item

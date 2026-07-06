@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cv_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cv_primary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_icon_btn"
+                android:padding="8dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="@string/help_support"
+                android:textColor="#FFFFFF"
+                android:textFontWeight="600"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- Body -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Quick contact cards -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/cardEmailSupport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_quick_action"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        app:tint="@color/cv_accent"
+                        android:src="@drawable/ic_mail" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/email_support"
+                        android:textColor="@color/cv_text_muted"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardWhatsappSupport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_quick_action"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        app:tint="@color/cv_accent"
+                        android:src="@drawable/ic_chat" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/chat_support"
+                        android:textColor="@color/cv_text_muted"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- FAQ Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/inter"
+                android:letterSpacing="0.08"
+                android:text="@string/faq_section"
+                android:textColor="@color/cv_text_hint"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_menu_group"
+                android:orientation="vertical">
+
+                <!-- FAQ Item 1 -->
+                <LinearLayout
+                    android:id="@+id/rowFaq1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/faq_q1"
+                        android:textColor="@color/cv_text_primary"
+                        android:textFontWeight="500"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/ivFaq1Arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:rotation="90"
+                        app:tint="@color/cv_text_hint"
+                        android:src="@drawable/ic_chevron" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFaq1Answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:fontFamily="@font/inter"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/faq_a1"
+                    android:textColor="@color/cv_text_muted"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@color/cv_divider" />
+
+                <!-- FAQ Item 2 -->
+                <LinearLayout
+                    android:id="@+id/rowFaq2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/faq_q2"
+                        android:textColor="@color/cv_text_primary"
+                        android:textFontWeight="500"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/ivFaq2Arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        app:tint="@color/cv_text_hint"
+                        android:src="@drawable/ic_chevron" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFaq2Answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:fontFamily="@font/inter"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/faq_a2"
+                    android:textColor="@color/cv_text_muted"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@color/cv_divider" />
+
+                <!-- FAQ Item 3 -->
+                <LinearLayout
+                    android:id="@+id/rowFaq3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/faq_q3"
+                        android:textColor="@color/cv_text_primary"
+                        android:textFontWeight="500"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/ivFaq3Arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        app:tint="@color/cv_text_hint"
+                        android:src="@drawable/ic_chevron" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFaq3Answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:fontFamily="@font/inter"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/faq_a3"
+                    android:textColor="@color/cv_text_muted"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@color/cv_divider" />
+
+                <!-- FAQ Item 4 -->
+                <LinearLayout
+                    android:id="@+id/rowFaq4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/faq_q4"
+                        android:textColor="@color/cv_text_primary"
+                        android:textFontWeight="500"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/ivFaq4Arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        app:tint="@color/cv_text_hint"
+                        android:src="@drawable/ic_chevron" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFaq4Answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:fontFamily="@font/inter"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/faq_a4"
+                    android:textColor="@color/cv_text_muted"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- Report problem -->
+            <LinearLayout
+                android:id="@+id/rowReportProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_menu_group"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="12dp"
+                    app:tint="@color/cv_danger"
+                    android:src="@drawable/ic_report" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/report_problem"
+                    android:textColor="@color/cv_text_primary"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:tint="@color/cv_text_hint"
+                    android:src="@drawable/ic_chevron" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
