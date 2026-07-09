@@ -1,6 +1,8 @@
 package com.abdallahshabat.cloudvault.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.abdallahshabat.cloudvault.ui.home.adapter.FileAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import androidx.navigation.fragment.findNavController
 
 
 /*HomeFragment
@@ -75,6 +78,8 @@ class HomeFragment : Fragment() {
         observeFiles()
         observeDeleteState()
         observeRenameState()
+        observeFavoriteState()
+
         viewModel.loadFiles()
     }
 
@@ -93,13 +98,16 @@ class HomeFragment : Fragment() {
         // Quick actions
         binding.cardUpload.setOnClickListener {
             parentFragmentManager.let {
-                requireActivity().findViewById<BottomNavigationView>(
+                this.requireActivity().findViewById<BottomNavigationView>(
                     R.id.bottomNav
                 ).selectedItemId = R.id.uploadFragment
             }
         }
         binding.cardShare.setOnClickListener {
             shareApp()
+        }
+        binding.cardFavorites.setOnClickListener {
+            findNavController().navigate(R.id.favoritesFragment)
         }
     }
 
@@ -132,10 +140,10 @@ class HomeFragment : Fragment() {
         fileAdapter.setOnFileClickListener(
             object : FileAdapter.OnFileClickListener {
                 override fun onFileClick(file: CloudFile) {
-                        FileOpener.open(
-                            requireContext(),
-                            file
-                        )
+                    FileOpener.open(
+                        requireContext(),
+                        file
+                    )
                 }
 
                 override fun onMoreClick(file: CloudFile, anchorView: View) {
@@ -143,6 +151,9 @@ class HomeFragment : Fragment() {
                 }
             }
         )
+        fileAdapter.setOnFavoriteClickListener { file ->
+            viewModel.toggleFavorite(file)
+        }
 
         binding.rvRecentFiles.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -157,88 +168,32 @@ class HomeFragment : Fragment() {
      * مراقبة قائمة الملفات.
      * عند وصول بيانات جديدة يتم تحديث RecyclerView.*/
     private fun observeFiles() {
+
         viewModel.recentFiles.observe(viewLifecycleOwner) { files ->
+
             fileAdapter.submitList(files)
+
+            binding.tvEmpty.visibility =
+                if (files.isEmpty()) View.VISIBLE else View.GONE
+
+            val usedStorage = files.sumOf { it.fileSize }
+
+            val totalStorage = 10L * 1024 * 1024 * 1024L // 10 GB
+
+            binding.tvStorageInfo.text =
+                "${formatSize(usedStorage)} من ${formatSize(totalStorage)}"
+
+            binding.storageProgress.progress =
+                ((usedStorage.toFloat() / totalStorage) * 100).toInt()
+
         }
+
     }
 
     private fun showFileOptionsMenu(file: CloudFile, anchor: View) {
 
-        val popupMenu = PopupMenu(requireContext(), anchor)
+        Log.d("Favorites", "isFavorite = ${file.isFavorite}")    }
 
-        popupMenu.menuInflater.inflate(
-            R.menu.file_options_menu,
-            popupMenu.menu
-        )
-
-        popupMenu.setOnMenuItemClickListener { item ->
-
-            when (item.itemId) {
-
-                R.id.action_open -> {
-                    /*الآن أصبحت ميزة Open تعمل من مكانين
-الضغط على الملف نفسه.
-اختيار Open من قائمة الخيارات.
-وكلاهما يستخدم نفس الكود داخل  FileOpener                    .    */
-                    FileOpener.open(requireContext(), file)
-                    true
-                }
-                R.id.action_download -> { FileDownloader.download(requireContext(), file)
-                    true
-                }
-
-                R.id.action_share -> {
-                    FileSharer.share(requireContext(), file)
-                    true
-                }
-
-                R.id.action_rename -> {
-                    renameFile(file)
-                  true
-                }
-
-                R.id.action_copy_link -> {
-                    //عند الضغط على Copy Link:
-                    //✅ يتم نسخ رابط Cloudinary.
-                    // تظهر رسالة:
-                    //Link copied to clipboard.
-                    ClipboardHelper.copyLink(
-                        requireContext(),
-                        file
-                    )
-                    true
-                }
-
-                R.id.action_delete -> {
-                    /*ماذا سيحدث الآن؟
-إذا ضغط المستخدم Delete...
-                    لن يحذف مباشرة.
-                    بل سيظهر Dialog احترافي.
-وعند الضغط على Delete...
-سنستدعي
-                     viewModel.deleteFile(file)
-الخطوة التالية (بعد أن تنتهي من هذه)
-سنذهب إلى HomeViewModel ونضيف
-                    fun deleteFile(...)
-ثم نربطها مع Repository.
-ثم نجعل RecyclerView يحدث نفسه مباشرة.
-ملاحظة مهمة جدًا
-                    لاحظ أننا لا نكتب:
-                    repository.deleteFile(...)
-داخل الـ Fragment.
-ولا نكتب:
-                        FirebaseFirestore...
-داخل الـ Fragment.
-لأن هذا يكسر MVVM.
-                        سيبقى الـ Fragment مسؤولًا عن واجهة المستخدم فقط، بينما منطق الحذف سيكون في الـ ViewModel ثم الـ Repository.*/
-                    showDeleteDialog(file)
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
-    }
     /*** مشاركة التطبيق نفسه مع الأصدقاء
      * عبر أي تطبيق مثبت (واتساب، تيليجرام، ايميل...)
      * Share the app itself via any installed app */
@@ -250,19 +205,25 @@ class HomeFragment : Fragment() {
         https://play.google.com/store/apps/details?id=$appPackageName
     """.trimIndent()
 
-        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+            putExtra(Intent.EXTRA_TEXT, shareText)
         }
-
-        startActivity(android.content.Intent.createChooser(shareIntent, "شارك التطبيق عبر"))
+        startActivity(
+            android.content.Intent.createChooser(
+                shareIntent,
+                getString(R.string.share_app)
+            )
+        )
     }
+
     private fun showDeleteDialog(file: CloudFile) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete File")
             .setMessage("Are you sure you want to delete\n\n${file.fileName} ?\n\nThis action cannot be undone.")
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Delete") { _, _ ->
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }.setPositiveButton("Delete") { _, _ ->
                 viewModel.deleteFile(file)
             }
             .show()
@@ -278,10 +239,36 @@ class HomeFragment : Fragment() {
             result.fold(
                 onSuccess = {
                     viewModel.loadFiles()
-                    Snackbar.make(binding.root, "File deleted successfully.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "File deleted successfully.", Snackbar.LENGTH_SHORT)
+                        .show()
                 },
                 onFailure = {
-                    Snackbar.make(binding.root, "Failed to delete file.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Failed to delete file.", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+            )
+        }
+    }
+
+    //مراقبة
+    private fun observeFavoriteState() {
+        viewModel.favoriteState.observe(viewLifecycleOwner) { result ->
+            result.fold(
+                onSuccess = {
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.favorite_updated_successfully),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    viewModel.loadFiles()
+                },
+                onFailure = {
+                    Snackbar.make(
+                        binding.root,
+                        it.message ?: getString(R.string.failed_update_favorite),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    viewModel.loadFiles()
                 }
             )
         }
@@ -293,14 +280,17 @@ class HomeFragment : Fragment() {
             result.fold(
                 onSuccess = {
                     viewModel.loadFiles()
-                    Snackbar.make(binding.root, "File renamed successfully.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "File renamed successfully.", Snackbar.LENGTH_SHORT)
+                        .show()
                 },
                 onFailure = {
-                    Snackbar.make(binding.root, "Failed to rename file.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Failed to rename file.", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             )
         }
     }
+
     private fun renameFile(file: CloudFile) {
 
         val dialogBinding = DialogRenameFileBinding.inflate(layoutInflater)
@@ -316,12 +306,21 @@ class HomeFragment : Fragment() {
         }
         dialogBinding.btnRename.setOnClickListener {
             val newName = dialogBinding.etFileName.text.toString().trim()
-            if (newName.isNotEmpty()) {
-                viewModel.renameFile(file, newName)
-                dialog.dismiss()
+            when {
+                newName.isEmpty() -> {
+                    dialogBinding.etFileName.error = "Required"
+                }
+
+                newName == file.fileName -> {
+                    dialog.dismiss()
+                }
+
+                else -> {
+                    viewModel.renameFile(file, newName)
+                    dialog.dismiss()
+                }
             }
         }
         dialog.show()
     }
-
 }

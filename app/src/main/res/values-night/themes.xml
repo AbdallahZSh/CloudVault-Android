@@ -12,7 +12,7 @@
         <item name="colorControlNormal">@color/cv_border</item>
         <item name="colorControlHighlight">@color/cv_surface</item>
 
-        <item name="android:colorBackground">@color/cv_background</item>
+        <item name="android:colorBackground">@color/bottom_nav_color</item>
 
         <item name="android:fontFamily">@font/inter</item>
         <item name="fontFamily">@font/inter</item>

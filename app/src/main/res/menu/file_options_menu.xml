@@ -16,6 +16,10 @@ the "More" button of a file.
         android:icon="@drawable/ic_open"/>
 
     <item
+        android:id="@+id/action_favorite"
+        android:title="@string/add_favorite" />
+
+    <item
         android:id="@+id/action_download"
         android:title="@string/download_title_menu"
         android:icon="@drawable/ic_download"/>

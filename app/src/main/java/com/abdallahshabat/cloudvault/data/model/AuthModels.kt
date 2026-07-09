@@ -1,5 +1,7 @@
 package com.abdallahshabat.cloudvault.data.model
 
+import com.google.firebase.firestore.PropertyName
+
 data class LoginRequest(
     val email: String,
     val password: String
@@ -30,76 +32,75 @@ data class RegisterForm(
     val password: String,
     val confirmPassword: String
 )
+
 /**
  * ------------------------------------------------------------
- * File Name : CloudFile.kt
- * Module    : File Management
- * Project   : CloudVault
- *
- * English:
- * Represents a file uploaded by the user.
- * This model is stored inside Firestore and displayed
- * throughout the application.
- *
- * العربية:
- * يمثل ملفاً قام المستخدم برفعه.
- * يتم حفظه داخل Firestore واستخدامه في جميع أجزاء التطبيق.
+ * CloudVault
+ * CloudFile Model
  * ------------------------------------------------------------
+ *
+ * Represents a file uploaded by the user.
+ * Stored in Firestore and displayed across the app.
  */
-
 data class CloudFile(
 
-    /**
-     * Firestore document id.
-     * معرف المستند داخل Firestore.
-     */
+    /** Firestore document id */
     val id: String = "",
 
-    /**
-     * Owner user id.
-     * معرف صاحب الملف.
-     */
+    /** Owner uid */
     val ownerId: String = "",
 
-    /**
-     * Original file name.
-     * الاسم الأصلي للملف.
-     */
+    /** File name */
     val fileName: String = "",
 
-    /**
-     * Cloudinary download URL.
-     * رابط الملف على Cloudinary.
-     */
+    /** Cloudinary URL */
     val fileUrl: String = "",
-    /**
-     * Cloudinary public identifier.
-     *
-     * English:
-     * Used to delete or manage the uploaded file.
-     *
-     * العربية:
-     * المعرف الخاص بالملف داخل Cloudinary.
-     * يستخدم للحذف وإدارة الملف.
-     */
+
+    /** Cloudinary public id */
     val publicId: String = "",
 
-    /**
-     * MIME type.
-     * نوع الملف.
-     */
+    /** MIME type */
     val fileType: String = "",
 
-    /**
-     * File size in bytes.
-     * حجم الملف بالبايت.
-     */
+    /** Size in bytes */
     val fileSize: Long = 0L,
 
-    /**
-     * Upload date.
-     * تاريخ الرفع.
-     */
-    val uploadedAt: Long = System.currentTimeMillis()
+    /** Upload timestamp */
+    val uploadedAt: Long = System.currentTimeMillis(),
 
-)
+    /** Favorite status */
+    @get:PropertyName("isFavorite")
+    @set:PropertyName("isFavorite")
+    var isFavorite: Boolean = false
+) {
+
+    /**
+     * Returns true if the file is an image.
+     */
+    fun isImage(): Boolean =
+        fileType.startsWith("image")
+
+    /**
+     * Returns true if the file is a PDF.
+     */
+    fun isPdf(): Boolean =
+        fileType.contains("pdf", ignoreCase = true)
+
+    /**
+     * Returns readable file size.
+     */
+    fun formattedSize(): String =
+        when {
+            fileSize >= 1024L * 1024L * 1024L ->
+                String.format("%.2f GB", fileSize / 1024f / 1024f / 1024f)
+
+            fileSize >= 1024L * 1024L ->
+                String.format("%.2f MB", fileSize / 1024f / 1024f)
+
+            fileSize >= 1024L ->
+                String.format("%.2f KB", fileSize / 1024f)
+
+            else ->
+                "$fileSize Bytes"
+        }
+}

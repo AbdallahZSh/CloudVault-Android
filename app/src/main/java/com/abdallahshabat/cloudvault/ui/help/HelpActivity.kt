@@ -6,8 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.abdallahshabat.cloudvault.BuildConfig
 import com.abdallahshabat.cloudvault.databinding.ActivityHelpBinding
+import com.google.firebase.firestore.BuildConfig
 
 /*** HelpActivity
  * شاشة "المساعدة والدعم": تواصل سريع (إيميل/واتساب)، أسئلة شائعة قابلة للطي،

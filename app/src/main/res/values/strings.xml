@@ -11,6 +11,7 @@
     <string name="home">الرئيسية</string>
     <string name="end_file">آخر الملفات</string>
     <string name="share">مشاركة</string>
+    <string name="share_app">شارك التطبيق عبر</string>
     <string name="favorite">المفضلة</string>
     <string name="new_file">مجلد جديد</string>
     <string name="upload_file">رفع ملف</string>
@@ -60,7 +61,7 @@
     <string name="logout">تسجيل الخروج</string>
     <string name="app_version_placeholder">CloudVault v1.0.0</string>
 
-<!--    about fragment -->
+    <!--    about fragment -->
     <string name="about_app_headline">عن CloudVault</string>
     <string name="about_app_description">CloudVault هو تطبيق تخزين سحابي بسيط وآمن، يتيح لك رفع ملفاتك ومشاركتها من أي مكان، مع واجهة سريعة وسهلة الاستخدام.</string>
     <string name="features_section">أهم الميزات</string>
@@ -73,7 +74,7 @@
     <string name="contact_us">تواصل معنا</string>
     <string name="developed_by">تم التطوير بواسطة</string>
     <string name="copyright_text">© 2026 CloudVault. جميع الحقوق محفوظة.</string>
-<!--    help  -->
+    <!--    help  -->
     <string name="email_support">إيميل الدعم</string>
     <string name="chat_support">واتساب</string>
     <string name="faq_section">الأسئلة الشائعة</string>
@@ -87,7 +88,7 @@
     <string name="faq_a4">نعم، جميع الملفات مخزنة بشكل آمن عبر Firebase مع تشفير أثناء النقل.</string>
     <string name="report_problem">الإبلاغ عن مشكلة</string>
 
-<!--    PrivacyActivity -->.
+    <!--    PrivacyActivity -->.
     <string name="app_security_section">أمان التطبيق</string>
     <string name="app_lock">قفل التطبيق</string>
     <string name="app_lock_desc">افتح التطبيق ببصمتك أو رقم سري</string>
@@ -99,7 +100,7 @@
     <string name="danger_zone_section">منطقة الخطر</string>
     <string name="delete_account">حذف الحساب نهائيًا</string>
 
-<!--    password -->
+    <!--    password -->
     <string name="change_password_hint">لتغيير كلمة السر، أدخل كلمة السر الحالية ثم الكلمة الجديدة.</string>
     <string name="current_password">كلمة السر الحالية</string>
     <string name="new_password">كلمة السر الجديدة</string>
@@ -108,4 +109,12 @@
     <string name="save_new_password">حفظ كلمة السر الجديدة</string>
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
+    <string name="add_favorite">إضافة إلى المفضلة</string>
+
+    <string name="favorite_updated_successfully">Favorite updated successfully.</string>
+    <string name="failed_update_favorite">Failed to update favorite.</string>
+    <string name="file_deleted_successfully">File deleted successfully.</string>
+    <string name="no_files_uploaded_yet">No files uploaded yet</string>
+
+
 </resources>

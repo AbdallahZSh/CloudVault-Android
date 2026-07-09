@@ -2,17 +2,33 @@ package com.abdallahshabat.cloudvault.data.repository
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.abdallahshabat.cloudvault.data.model.CloudFile
+import com.abdallahshabat.cloudvault.data.network.DeleteFileRequest
+import com.abdallahshabat.cloudvault.data.network.DeleteRetrofit
 import com.abdallahshabat.cloudvault.data.remote.CloudinaryDataSource
 import com.abdallahshabat.cloudvault.data.remote.upload.UploadProgressListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
-import com.abdallahshabat.cloudvault.data.network.DeleteFileRequest
-import com.abdallahshabat.cloudvault.data.network.DeleteRetrofit
 
 class FileRepositoryImpl : FileRepository {
-    private val cloudinaryDataSource = CloudinaryDataSource()
+
+    companion object {
+        private const val TAG = "FileRepository"
+    }
+
     private val firestore = FirebaseFirestore.getInstance()
+
+    private val cloudinary = CloudinaryDataSource()
+
+    /**
+     * Returns user files collection.
+     */
+    private fun userFiles(userId: String) =
+        firestore.collection("users")
+            .document(userId)
+            .collection("files")
 
     override suspend fun uploadFile(
         context: Context,
@@ -22,21 +38,19 @@ class FileRepositoryImpl : FileRepository {
         fileType: String,
         fileSize: Long,
         listener: UploadProgressListener
-    ): Result<Unit>  {
+    ): Result<Unit> {
 
         return try {
-            cloudinaryDataSource.uploadImage(
+
+            cloudinary.uploadImage(
                 context,
                 fileUri,
                 listener
             ).fold(
+
                 onSuccess = { result ->
 
-                    val document = firestore
-                        .collection("users")
-                        .document(userId)
-                        .collection("files")
-                        .document()
+                    val document = userFiles(userId).document()
 
                     val cloudFile = CloudFile(
                         id = document.id,
@@ -51,86 +65,92 @@ class FileRepositoryImpl : FileRepository {
                     document.set(cloudFile).await()
 
                     Result.success(Unit)
+
                 },
+
                 onFailure = {
+
                     Result.failure(it)
+
                 }
+
             )
-        } catch (exception: Exception) {
-            Result.failure(exception)
+
+        } catch (e: Exception) {
+
+            Log.e(TAG, "Upload failed", e)
+
+            Result.failure(e)
+
         }
+
     }
 
-    override suspend fun getFiles(userId: String): Result<List<CloudFile>> {
+    override suspend fun getFiles(
+        userId: String
+    ): Result<List<CloudFile>> {
+
         return try {
-            val snapshot = firestore
-                .collection("users")
-                .document(userId)
-                .collection("files")
+
+            val snapshot = userFiles(userId)
+                .orderBy(
+                    "uploadedAt",
+                    Query.Direction.DESCENDING
+                )
                 .get()
                 .await()
 
-            val files = snapshot.toObjects(CloudFile::class.java)
+            Result.success(
+                snapshot.toObjects(CloudFile::class.java)
+            )
 
-            Result.success(files)
+        } catch (e: Exception) {
 
-        } catch (exception: Exception) {
+            Log.e(TAG, "Load files failed", e)
 
-            Result.failure(exception)
+            Result.failure(e)
 
         }
 
     }
 
-    override suspend fun deleteFile(cloudFile: CloudFile): Result<Unit> {
-        //Android
-        //     ▼
-        //Backend API
-        //     ▼
-        //Cloudinary
-        //     ▼
-        //Firestore
-        //أي:
-        //يحذف الملف من Cloudinary.
-        //إذا نجح الحذف، يحذف سجل Firestore.
-        //إذا فشل الحذف من Cloudinary، فلن يحذف Firestore، وبذلك لن يبقى رابط لملف غير موجود.
+    override suspend fun deleteFile(
+        cloudFile: CloudFile
+    ): Result<Unit> {
+
         return try {
 
             val response = DeleteRetrofit.api.deleteFile(
-                DeleteFileRequest(
-                    publicId = cloudFile.publicId
-                )
+                DeleteFileRequest(cloudFile.publicId)
             )
 
             if (!response.isSuccessful) {
+
                 return Result.failure(
-                    Exception("Failed to delete file from Cloudinary")
+                    Exception(
+                        "Cloudinary delete failed : ${response.code()}"
+                    )
                 )
+
             }
 
-            firestore
-                .collection("users")
-                .document(cloudFile.ownerId)
-                .collection("files")
+            userFiles(cloudFile.ownerId)
                 .document(cloudFile.id)
                 .delete()
                 .await()
 
             Result.success(Unit)
 
-        } catch (exception: Exception) {
+        } catch (e: Exception) {
 
-            Result.failure(exception)
+            Log.e(TAG, "Delete failed", e)
+
+            Result.failure(e)
 
         }
 
     }
 
-    //هذه الدالة تحدث فقط حقل:
-    //
-    //fileName
-    //
-    //ولا تعيد رفع الملف.
     override suspend fun renameFile(
         cloudFile: CloudFile,
         newName: String
@@ -138,10 +158,7 @@ class FileRepositoryImpl : FileRepository {
 
         return try {
 
-            firestore
-                .collection("users")
-                .document(cloudFile.ownerId)
-                .collection("files")
+            userFiles(cloudFile.ownerId)
                 .document(cloudFile.id)
                 .update(
                     "fileName",
@@ -151,9 +168,81 @@ class FileRepositoryImpl : FileRepository {
 
             Result.success(Unit)
 
-        } catch (exception: Exception) {
+        } catch (e: Exception) {
 
-            Result.failure(exception)
+            Log.e(TAG, "Rename failed", e)
+
+            Result.failure(e)
+
+        }
+
+    }
+
+    override suspend fun setFavorite(
+        cloudFile: CloudFile,
+        isFavorite: Boolean
+    ): Result<Unit> {
+
+        return try {
+
+            userFiles(cloudFile.ownerId)
+                .document(cloudFile.id)
+                .update(
+                    "isFavorite",
+                    isFavorite
+                )
+                .await()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+
+            Log.e(TAG, "Favorite update failed", e)
+
+            Result.failure(e)
+
+        }
+
+    }
+
+    override suspend fun toggleFavorite(
+        cloudFile: CloudFile
+    ): Result<Unit> {
+
+        return setFavorite(
+            cloudFile,
+            !cloudFile.isFavorite
+        )
+
+    }
+
+    override suspend fun getFavoriteFiles(
+        userId: String
+    ): Result<List<CloudFile>> {
+
+        return try {
+
+            val snapshot = userFiles(userId)
+                .whereEqualTo(
+                    "isFavorite",
+                    true
+                )
+                .orderBy(
+                    "uploadedAt",
+                    Query.Direction.DESCENDING
+                )
+                .get()
+                .await()
+
+            Result.success(
+                snapshot.toObjects(CloudFile::class.java)
+            )
+
+        } catch (e: Exception) {
+
+            Log.e(TAG, "Load favorites failed", e)
+
+            Result.failure(e)
 
         }
 

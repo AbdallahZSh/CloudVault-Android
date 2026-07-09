@@ -20,9 +20,13 @@ public class FileController : ControllerBase
 
     [HttpDelete]
     public async Task<IActionResult> DeleteFile(
-        DeleteFileRequest request
+        [FromBody] DeleteFileRequest request
     )
     {
+        if (request == null || string.IsNullOrWhiteSpace(request.PublicId))
+        {
+             return BadRequest("PublicId is required.");
+        }
         try
         {
             var deleteParams =
@@ -32,6 +36,10 @@ public class FileController : ControllerBase
                 await _cloudinaryService.Cloudinary
                     .DestroyAsync(deleteParams);
 
+            Console.WriteLine($"Result: {result.Result}");
+            Console.WriteLine($"Error: {result.Error?.Message}");
+
+            Console.WriteLine($"PublicId: {request.PublicId}");
             if (result.Result == "ok")
             {
                 return Ok(new
@@ -40,10 +48,11 @@ public class FileController : ControllerBase
                 });
             }
 
-            return BadRequest(new
-            {
-                message = result.Result
-            });
+        return BadRequest(new
+        {
+            result = result.Result,
+            error = result.Error?.Message
+        });
         }
         catch (Exception ex)
         {

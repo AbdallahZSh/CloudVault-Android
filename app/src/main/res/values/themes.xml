@@ -11,11 +11,17 @@
         <item name="colorControlActivated">@color/cv_accent</item>
         <item name="colorControlNormal">@color/cv_border</item>
         <item name="colorControlHighlight">@color/cv_surface</item>
-
-        <item name="android:colorBackground">@color/cv_background</item>
+        <item name="android:colorBackground">@color/black</item>
 
         <item name="android:fontFamily">@font/inter</item>
         <item name="fontFamily">@font/inter</item>
+
+    </style>
+    <style name="CloudVault.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+
+        <item name="android:popupBackground">@drawable/bg_dot</item>
+
+        <item name="android:textColor">@android:color/white</item>
 
     </style>
 
@@ -25,7 +31,7 @@
     <style name="Theme.CloudVault.Splash"
         parent="Theme.SplashScreen">
 
-        <item name="windowSplashScreenBackground">@color/cv_background</item>
+        <item name="windowSplashScreenBackground">@color/cv_danger</item>
         <item name="postSplashScreenTheme">@style/Theme.CloudVault</item>
         <item name="android:windowFullscreen">true</item>
 

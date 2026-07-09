@@ -12,6 +12,7 @@
         android:id="@+id/uploadFragment"
         android:icon="@drawable/ic_upload"
         android:title="@string/upload"/>
+
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
