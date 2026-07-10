@@ -109,6 +109,9 @@ class HomeFragment : Fragment() {
         binding.cardFavorites.setOnClickListener {
             findNavController().navigate(R.id.favoritesFragment)
         }
+        binding.cardNewFolder.setOnClickListener {
+            findNavController().navigate(R.id.filesFragment)
+        }
     }
 
 

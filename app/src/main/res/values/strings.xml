@@ -115,6 +115,11 @@
     <string name="failed_update_favorite">Failed to update favorite.</string>
     <string name="file_deleted_successfully">File deleted successfully.</string>
     <string name="no_files_uploaded_yet">No files uploaded yet</string>
+    <string name="browse_your_uploaded_files">Browse your uploaded files</string>
+    <string name="files">Files</string>
+    <string name="images">Images</string>
+    <string name="documents">Documents</string>
+    <string name="browse_your_documents">Browse your documents</string>
 
 
 </resources>

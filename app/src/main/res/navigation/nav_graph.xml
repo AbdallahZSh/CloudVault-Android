@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
@@ -8,17 +7,50 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.abdallahshabat.cloudvault.ui.home.HomeFragment"
-        android:label="@string/home"/>
+        android:label="@string/home" />
 
     <fragment
         android:id="@+id/filesFragment"
         android:name="com.abdallahshabat.cloudvault.ui.files.FilesFragment"
-        android:label="@string/folder"/>
+        android:label="@string/folder">
+
+        <action
+            android:id="@+id/action_filesFragment_to_categoryFilesFragment"
+            app:destination="@id/categoryFilesFragment" />
+
+        <action
+            android:id="@+id/action_filesFragment_to_documentsFragment"
+            app:destination="@id/documentsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/categoryFilesFragment"
+        android:name="com.abdallahshabat.cloudvault.ui.files.CategoryFilesFragment"
+        android:label="Category Files">
+
+        <argument
+            android:name="category"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/documentsFragment"
+        android:name="com.abdallahshabat.cloudvault.ui.files.DocumentsFragment"
+        android:label="Documents">
+
+        <action
+            android:id="@+id/action_documentsFragment_to_categoryFilesFragment"
+            app:destination="@id/categoryFilesFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/uploadFragment"
         android:name="com.abdallahshabat.cloudvault.ui.upload.UploadFragment"
-        android:label="@string/upload"/>
+        android:label="@string/upload" />
+
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.abdallahshabat.cloudvault.ui.favorites.FavoritesFragment"
@@ -27,7 +59,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.abdallahshabat.cloudvault.ui.profile.ProfileFragment"
-        android:label="@string/setting"/>
-
+        android:label="@string/setting" />
 
 </navigation>
