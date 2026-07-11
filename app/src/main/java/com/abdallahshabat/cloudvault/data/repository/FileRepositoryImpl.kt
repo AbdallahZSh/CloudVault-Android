@@ -38,7 +38,7 @@ class FileRepositoryImpl : FileRepository {
         fileType: String,
         fileSize: Long,
         listener: UploadProgressListener
-    ): Result<Unit> {
+    ): Result<CloudFile> {
 
         return try {
 
@@ -64,7 +64,7 @@ class FileRepositoryImpl : FileRepository {
 
                     document.set(cloudFile).await()
 
-                    Result.success(Unit)
+                    Result.success(cloudFile)
 
                 },
 
@@ -248,4 +248,41 @@ class FileRepositoryImpl : FileRepository {
 
     }
 
+    override suspend fun markAllNotificationsAsRead(
+        userId: String
+    ): Result<Unit> {
+
+        return try {
+
+            val snapshot = firestore
+                .collection("users")
+                .document(userId)
+                .collection("notifications")
+                .whereEqualTo("isRead", false)
+                .get()
+                .await()
+
+            val batch = firestore.batch()
+
+            snapshot.documents.forEach { document ->
+
+                batch.update(
+                    document.reference,
+                    "isRead",
+                    true
+                )
+
+            }
+
+            batch.commit().await()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+
+        }
+
+    }
 }

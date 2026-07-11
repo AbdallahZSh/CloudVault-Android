@@ -60,5 +60,9 @@
         android:id="@+id/settingsFragment"
         android:name="com.abdallahshabat.cloudvault.ui.profile.ProfileFragment"
         android:label="@string/setting" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.abdallahshabat.cloudvault.ui.notifications.NotificationFragment"
+        android:label="Notifications"/>
 
 </navigation>

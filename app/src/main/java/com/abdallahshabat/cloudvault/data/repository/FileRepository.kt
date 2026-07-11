@@ -31,7 +31,7 @@ interface FileRepository {
         fileType: String,
         fileSize: Long,
         listener: UploadProgressListener
-    ): Result<Unit>
+    ): Result<CloudFile>
 
     /**
      * Delete file from Cloudinary and Firestore.
@@ -76,4 +76,8 @@ interface FileRepository {
     suspend fun getFavoriteFiles(
         userId: String
     ): Result<List<CloudFile>>
+
+    suspend fun markAllNotificationsAsRead(
+        userId: String
+    ): Result<Unit>
 }

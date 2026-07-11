@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abdallahshabat.cloudvault.core.utils.NotificationHelper
 import com.abdallahshabat.cloudvault.data.model.CloudFile
 import com.abdallahshabat.cloudvault.data.repository.FileRepository
 import com.abdallahshabat.cloudvault.data.repository.FileRepositoryImpl
@@ -56,6 +57,20 @@ class FavoritesViewModel : ViewModel() {
                     onSuccess = {
                         _favoriteState.value = Result.success(Unit)
                         loadFavorites()
+                        NotificationHelper.addNotification(
+
+                            file.ownerId,
+
+                            if (!file.isFavorite)
+                                "Added to Favorites"
+                            else
+                                "Removed from Favorites",
+
+                            file.fileName,
+
+                            "favorite"
+
+                        )
                     },
                     onFailure = {
                         _favoriteState.value = Result.failure(it)

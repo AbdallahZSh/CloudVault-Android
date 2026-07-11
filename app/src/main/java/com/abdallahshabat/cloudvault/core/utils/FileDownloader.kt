@@ -68,7 +68,17 @@ object FileDownloader {
                 "Download started.",
                 Toast.LENGTH_SHORT
             ).show()
+            NotificationHelper.addNotification(
 
+                file.ownerId,
+
+                "Download Started",
+
+                "${file.fileName} download has started.",
+
+                "download"
+
+            )
         } catch (e: Exception) {
 
             Toast.makeText(

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.abdallahshabat.cloudvault.ui.home.adapter.FileAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.fragment.findNavController
+import com.abdallahshabat.cloudvault.ui.notifications.NotificationViewModel
 
 
 /*HomeFragment
@@ -62,6 +64,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
+    private val notificationViewModel: NotificationViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,10 +83,28 @@ class HomeFragment : Fragment() {
         observeDeleteState()
         observeRenameState()
         observeFavoriteState()
-
+        readANDunReadNotification()
         viewModel.loadFiles()
     }
+    private fun readANDunReadNotification() {
+        notificationViewModel.loadUnreadCount()
 
+        notificationViewModel.unreadCount.observe(viewLifecycleOwner) { count ->
+
+            if (count > 0) {
+                binding.tvNotificationBadge.visibility = View.VISIBLE
+
+                if (count > 99)
+                    binding.tvNotificationBadge.text = "99+"
+                else
+                    binding.tvNotificationBadge.text = count.toString()
+
+            } else {
+                binding.tvNotificationBadge.visibility = View.GONE
+            }
+
+        }
+    }
     private fun setupUI() {
         val user = TokenManager.getUser(requireContext())
         binding.tvUserName.text = user?.fullName ?: "مرحباً"
@@ -111,6 +133,16 @@ class HomeFragment : Fragment() {
         }
         binding.cardNewFolder.setOnClickListener {
             findNavController().navigate(R.id.filesFragment)
+        }
+        binding.ivSearch.setOnClickListener {
+            Toast.makeText(requireContext(), "Search", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnNotification.setOnClickListener {
+
+            findNavController().navigate(R.id.notificationFragment)
+
+            notificationViewModel.markAllAsRead()
+
         }
     }
 
@@ -195,7 +227,70 @@ class HomeFragment : Fragment() {
 
     private fun showFileOptionsMenu(file: CloudFile, anchor: View) {
 
-        Log.d("Favorites", "isFavorite = ${file.isFavorite}")    }
+        val popupMenu = PopupMenu(
+            requireContext(),
+            anchor,
+            0,
+            0,
+            R.style.CloudVault_PopupMenu
+        )
+
+        popupMenu.menuInflater.inflate(
+            R.menu.file_options_menu,
+            popupMenu.menu
+        )
+
+        popupMenu.menu.findItem(R.id.action_favorite).title =
+            if (file.isFavorite)
+                "Remove from Favorites"
+            else
+                "Add to Favorites"
+
+        popupMenu.setOnMenuItemClickListener { item ->
+
+            when (item.itemId) {
+
+                R.id.action_open -> {
+                    FileOpener.open(requireContext(), file)
+                    true
+                }
+
+                R.id.action_download -> {
+                    FileDownloader.download(requireContext(), file)
+                    true
+                }
+
+                R.id.action_share -> {
+                    FileSharer.share(requireContext(), file)
+                    true
+                }
+
+                R.id.action_copy_link -> {
+                    ClipboardHelper.copyLink(requireContext(), file)
+                    true
+                }
+
+                R.id.action_favorite -> {
+                    viewModel.toggleFavorite(file)
+                    true
+                }
+
+                R.id.action_rename -> {
+                    renameFile(file)
+                    true
+                }
+
+                R.id.action_delete -> {
+                    showDeleteDialog(file)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
 
     /*** مشاركة التطبيق نفسه مع الأصدقاء
      * عبر أي تطبيق مثبت (واتساب، تيليجرام، ايميل...)

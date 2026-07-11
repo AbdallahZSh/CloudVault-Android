@@ -13,6 +13,7 @@ import android.content.Intent
 import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.abdallahshabat.cloudvault.core.utils.NotificationHelper
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -35,10 +36,7 @@ class UploadFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    private val filePickerLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
+    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
             if (result.resultCode == Activity.RESULT_OK) {
 
@@ -143,11 +141,11 @@ class UploadFragment : Fragment() {
                     binding.uploadProgress.progress = 0
                     binding.tvProgress.text = "0%"
 
-                    Snackbar.make(
-                        binding.root,
-                        "File uploaded successfully",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@observe
+
+                    NotificationHelper.addNotification(userId, "Upload Completed", "${state.file.fileName} uploaded successfully", "upload")
+
+                    Snackbar.make(binding.root, "File uploaded successfully", Snackbar.LENGTH_SHORT).show()
 
                     binding.tvFileName.text = "No file selected"
                     binding.tvFileSize.text = "Size : -"

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abdallahshabat.cloudvault.core.utils.NotificationHelper
 import com.abdallahshabat.cloudvault.data.model.CloudFile
 import com.abdallahshabat.cloudvault.data.repository.FileRepository
 import com.abdallahshabat.cloudvault.data.repository.FileRepositoryImpl
@@ -75,6 +76,17 @@ class HomeViewModel : ViewModel() {
 
                     onSuccess = {
                         _deleteState.value = Result.success(file)
+                        NotificationHelper.addNotification(
+
+                            file.ownerId,
+
+                            "File Deleted",
+
+                            file.fileName,
+
+                            "delete"
+
+                        )
                     },
 
                     onFailure = {
@@ -100,6 +112,17 @@ class HomeViewModel : ViewModel() {
                     onSuccess = {
                         _renameState.value = Result.success(Unit)
                         loadFiles()
+                        NotificationHelper.addNotification(
+
+                            file.ownerId,
+
+                            "File Renamed",
+
+                            "New name: $newName",
+
+                            "rename"
+
+                        )
                     },
 
                     onFailure = {
@@ -125,6 +148,23 @@ class HomeViewModel : ViewModel() {
 
                         // Refresh RecyclerView
                         loadFiles()
+                        NotificationHelper.addNotification(
+
+                            file.ownerId,
+
+                            if (!file.isFavorite)
+                                "Added to Favorites"
+                            else
+                                "Removed from Favorites",
+
+                            if (!file.isFavorite)
+                                "${file.fileName} was added to Favorites"
+                            else
+                                "${file.fileName} was removed from Favorites",
+
+                            "favorite"
+
+                        )
                     },
 
                     onFailure = {
@@ -142,31 +182,40 @@ class HomeViewModel : ViewModel() {
      * Keep this function if another screen
      * needs to set the value manually.
      */
-    fun setFavorite(
-        file: CloudFile,
-        isFavorite: Boolean
-    ) {
-
-        viewModelScope.launch {
-
-            repository.setFavorite(file, isFavorite)
-                .fold(
-
-                    onSuccess = {
-
-                        _favoriteState.value =
-                            Result.success(Unit)
-
-                        loadFiles()
-                    },
-
-                    onFailure = {
-
-                        _favoriteState.value =
-                            Result.failure(it)
-                    }
-
-                )
-        }
-    }
+//    fun setFavorite(
+//        file: CloudFile,
+//        isFavorite: Boolean
+//    ) {
+//
+//        viewModelScope.launch {
+//
+//            repository.setFavorite(file, isFavorite).fold(
+//
+//                    onSuccess = {
+//
+//                        _favoriteState.value = Result.success(Unit)
+//                        loadFiles()
+//                        NotificationHelper.addNotification(
+//
+//                            file.ownerId,
+//
+//                            if (!file.isFavorite)
+//                                "Added to Favorites"
+//                            else
+//                                "Removed from Favorites",
+//
+//                            if (!file.isFavorite)
+//                                "${file.fileName} was added to Favorites"
+//                            else
+//                                "${file.fileName} was removed from Favorites",
+//
+//                            "favorite"
+//                        )
+//                    },
+//                    onFailure = {
+//                        _favoriteState.value = Result.failure(it)
+//                    }
+//                )
+//        }
+//    }
 }

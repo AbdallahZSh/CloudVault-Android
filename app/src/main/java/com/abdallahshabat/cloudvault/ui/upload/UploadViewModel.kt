@@ -54,8 +54,11 @@ class UploadViewModel : ViewModel() {
                 }
             ).fold(
 
-                onSuccess = {
-                    _uploadState.value = UploadState.Success
+                onSuccess = { uploadedFile ->
+
+                    _uploadState.value =
+                        UploadState.Success(uploadedFile)
+
                 },
 
                 onFailure = {
