@@ -135,7 +135,11 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.filesFragment)
         }
         binding.ivSearch.setOnClickListener {
-            Toast.makeText(requireContext(), "Search", Toast.LENGTH_SHORT).show()
+
+            findNavController().navigate(
+                R.id.searchFragment
+            )
+
         }
         binding.btnNotification.setOnClickListener {
 

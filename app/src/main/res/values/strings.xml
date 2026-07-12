@@ -120,6 +120,19 @@
     <string name="images">Images</string>
     <string name="documents">Documents</string>
     <string name="browse_your_documents">Browse your documents</string>
+    <string name="search_files">Search files…</string>
+    <string name="no_files_found">No files found</string>
+    <string name="all">All</string>
+    <string name="images_text">Images</string>
+    <string name="videos">Videos</string>
+    <string name="audio">Audio</string>
+    <string name="recent_searches">Recent Searches</string>
+    <string name="largest">Largest</string>
+    <string name="name_a_z">Name A-Z</string>
+    <string name="smallest">Smallest</string>
+    <string name="name_z_a">Name Z-A</string>
+    <string name="oldest">Oldest</string>
+    <string name="newest">Newest</string>
 
 
 </resources>

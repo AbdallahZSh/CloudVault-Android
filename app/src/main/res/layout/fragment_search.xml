@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:background="@color/cv_background"
+
+    android:padding="16dp">
+
+
+    <!-- Search -->
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:boxBackgroundMode="outline"
+
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+
+        app:startIconDrawable="@drawable/ic_search"
+
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_sort">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="@string/search_files"
+            android:textSize="15sp"
+
+            android:paddingStart="12dp"
+
+            android:inputType="text"
+
+            android:imeOptions="actionSearch"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <!-- Filters -->
+
+
+    <HorizontalScrollView
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="16dp"
+
+        android:scrollbars="none">
+
+
+        <com.google.android.material.chip.ChipGroup
+
+            android:id="@+id/chipGroup"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            app:singleSelection="true">
+
+
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/chipAll"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:checked="true"
+
+                android:text="@string/all"/>
+
+
+
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/chipImages"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/images_text"/>
+
+
+
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/chipVideos"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/videos"/>
+
+
+
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/chipAudio"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/audio"/>
+
+
+
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/chipDocuments"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/documents"/>
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </HorizontalScrollView>
+
+
+
+    <!-- Recent title -->
+
+
+    <TextView
+
+        android:id="@+id/tvRecent"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="24dp"
+
+        android:text="@string/recent_searches"
+
+        android:textSize="18sp"
+
+        android:textStyle="bold"
+
+        android:textColor="@color/cv_text_primary"/>
+
+
+
+    <!-- List -->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/rvSearch"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="1"
+
+        android:layout_marginTop="12dp"
+
+        android:clipToPadding="false"
+
+        android:paddingBottom="16dp"/>
+
+
+
+    <!-- Empty -->
+
+
+    <TextView
+
+        android:id="@+id/tvEmpty"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+
+        android:text="@string/no_files_found"
+
+        android:textSize="16sp"
+
+        android:textColor="@color/cv_text_secondary"
+
+        android:visibility="gone"/>
+
+
+</LinearLayout>

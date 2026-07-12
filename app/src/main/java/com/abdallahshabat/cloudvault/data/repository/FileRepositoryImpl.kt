@@ -285,4 +285,44 @@ class FileRepositoryImpl : FileRepository {
         }
 
     }
+
+    override suspend fun searchFiles(
+        userId: String,
+        query: String
+    ): Result<List<CloudFile>> {
+
+        return try {
+
+            val snapshot = userFiles(userId)
+                .orderBy(
+                    "uploadedAt",
+                    Query.Direction.DESCENDING
+                )
+                .get()
+                .await()
+
+            val files =
+                snapshot.toObjects(CloudFile::class.java)
+
+            val filtered =
+                files.filter {
+
+                    it.fileName.contains(
+                        query,
+                        ignoreCase = true
+                    )
+
+                }
+//لماذا هكذا؟
+//
+//لأن Firestore لا يدعم contains أو البحث الجزئي (LIKE %text%) مباشرة. لذلك نجلب ملفات المستخدم ثم نفلترها في التطبيق.
+            Result.success(filtered)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+
+        }
+
+    }
 }

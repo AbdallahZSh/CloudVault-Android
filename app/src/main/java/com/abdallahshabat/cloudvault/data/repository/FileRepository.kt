@@ -80,4 +80,9 @@ interface FileRepository {
     suspend fun markAllNotificationsAsRead(
         userId: String
     ): Result<Unit>
+
+    suspend fun searchFiles(
+        userId: String,
+        query: String
+    ): Result<List<CloudFile>>
 }
