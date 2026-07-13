@@ -25,6 +25,7 @@ import com.abdallahshabat.cloudvault.ui.home.adapter.FileAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.fragment.findNavController
+import com.abdallahshabat.cloudvault.ui.details.FileDetailsBottomSheet
 import com.abdallahshabat.cloudvault.ui.notifications.NotificationViewModel
 
 
@@ -281,6 +282,17 @@ class HomeFragment : Fragment() {
 
                 R.id.action_rename -> {
                     renameFile(file)
+                    true
+                }
+
+                R.id.action_details -> {
+
+                    FileDetailsBottomSheet(file)
+                        .show(
+                            parentFragmentManager,
+                            "file_details"
+                        )
+
                     true
                 }
 

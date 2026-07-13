@@ -39,6 +39,11 @@ the "More" button of a file.
         android:icon="@drawable/ic_copy"/>
 
     <item
+        android:id="@+id/action_details"
+        android:title="Details"
+        android:icon="@drawable/ic_info"/>
+
+    <item
         android:id="@+id/action_delete"
         android:title="@string/delete_title_menu"
         android:icon="@drawable/ic_delete"/>
